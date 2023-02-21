@@ -1,4 +1,5 @@
 Input = input("Lommeregner ")
+Input.replace(" ","")
 
 def funcVar1(Input):
     if "+" in Input:
