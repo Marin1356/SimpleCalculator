@@ -30,6 +30,7 @@ def funcVar2(Input):
         Var2 = List[1]
     return float(Var2)
 
+
 if "+" in Input:
     print(funcVar1(Input)+funcVar2(Input))
 elif "-" in Input:
