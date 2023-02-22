@@ -22,7 +22,7 @@ def findToken(Input):
     strLen = len(Input)
     Prog = 0
     mainList = []
-    isNumList = [] 
+    checkNumList = [] 
     numList = []
     for Prog in range(strLen):
         if isNumber(Input[Prog],False):
@@ -30,17 +30,17 @@ def findToken(Input):
         elif not isNumber(Input[Prog],False):
             if len(numList) > 0:
                 mainList.append(listAdd(numList))
-                isNumList.clear()
-                isNumList.append(True)
-            isNumList.append(False)
+                numList.clear()
+                checkNumList.append(True)
+            checkNumList.append(False)
             mainList.append(Input[Prog])
     if len(numList) > 0:
         mainList.append(listAdd(numList))
         numList.clear()
-        isNumList.append(True)
-    return (mainList, isNumList)
+        checkNumList.append(True)
+    return (mainList, checkNumList)
 
-(mainList, isNumList) = findToken(Input)
+(mainList, checkNumList) = findToken(Input)
 
 print(findToken(Input))
 
