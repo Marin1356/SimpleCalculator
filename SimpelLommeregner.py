@@ -39,7 +39,7 @@ def findToken(Input):
     return (mainList, checkNumList)
 
 (mainList, checkNumList) = findToken(Input)
-print(findToken(Input))
+#print(findToken(Input))
 
 def findOpePos(listToTest, Operator): 
     listLen = len(listToTest)
@@ -55,20 +55,23 @@ def calculator(listToCalc):
     if findOpePos(listToCalc,"*"[0]):
         Pos = findOpePos(listToCalc,"*")[1]
         Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
-        return Number
 
     elif findOpePos(listToCalc,"/"[0]):
         Pos = findOpePos(listToCalc,"/")[1]
         Number = float(listToCalc[Pos-1]) / float(listToCalc[Pos+1])
-        return Number
 
     elif findOpePos(listToCalc,"-"[0]):
         Pos = findOpePos(listToCalc,"-")[1]
         Number = float(listToCalc[Pos-1]) - float(listToCalc[Pos+1])
-        return Number
 
     elif findOpePos(listToCalc,"+"[0]):
         Pos = findOpePos(listToCalc,"+")[1]
         Number = float(listToCalc[Pos-1]) + float(listToCalc[Pos+1])
-        return Number
+    
+    listToCalc[Pos] = Number
+    listToCalc.pop(Pos-1)
+    listToCalc.pop(Pos)
+    print(listToCalc)
 
+
+print(calculator(mainList))
