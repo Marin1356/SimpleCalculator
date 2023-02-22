@@ -1,11 +1,12 @@
-Input = input("Lommeregner ")
+#Input = input("Lommeregner ")
+Input = "10+10-10/10*10"
 Input.replace(" ","")
 
 def isNumber(strToTest):
     Math = ["+","-","/","*"] 
     mathNum = 0
     for mathNum in range(4):
-        if Math[mathNum] in strToTest:
+        if Math[mathNum] is strToTest:
             return False
     return True
 
@@ -39,7 +40,6 @@ def findToken(Input):
     return (mainList, checkNumList)
 
 (mainList, checkNumList) = findToken(Input)
-#print(findToken(Input))
 
 def findOpePos(listToTest, Operator): 
     listLen = len(listToTest)
@@ -50,28 +50,27 @@ def findOpePos(listToTest, Operator):
                 return (True, Prog)
 
 def calculator(listToCalc):
-    length = len(listToCalc)
-    checkedOperators = 0
-    if findOpePos(listToCalc,"*"[0]):
-        Pos = findOpePos(listToCalc,"*")[1]
-        Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
 
-    elif findOpePos(listToCalc,"/"[0]):
-        Pos = findOpePos(listToCalc,"/")[1]
-        Number = float(listToCalc[Pos-1]) / float(listToCalc[Pos+1])
+    for i in listToCalc:
+        if findOpePos(listToCalc,"*"[0]):
+            Pos = findOpePos(listToCalc,"*")[1]
+            Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
 
-    elif findOpePos(listToCalc,"-"[0]):
-        Pos = findOpePos(listToCalc,"-")[1]
-        Number = float(listToCalc[Pos-1]) - float(listToCalc[Pos+1])
+        elif findOpePos(listToCalc,"/"[0]):
+            Pos = findOpePos(listToCalc,"/")[1]
+            Number = float(listToCalc[Pos-1]) / float(listToCalc[Pos+1])
 
-    elif findOpePos(listToCalc,"+"[0]):
-        Pos = findOpePos(listToCalc,"+")[1]
-        Number = float(listToCalc[Pos-1]) + float(listToCalc[Pos+1])
-    
-    listToCalc[Pos] = Number
-    listToCalc.pop(Pos-1)
-    listToCalc.pop(Pos)
-    print(listToCalc)
+        elif findOpePos(listToCalc,"-"[0]):
+            Pos = findOpePos(listToCalc,"-")[1]
+            Number = float(listToCalc[Pos-1]) - float(listToCalc[Pos+1])
 
+        elif findOpePos(listToCalc,"+"[0]):
+            Pos = findOpePos(listToCalc,"+")[1]
+            Number = float(listToCalc[Pos-1]) + float(listToCalc[Pos+1])
+        
+        listToCalc[Pos] = Number
+        listToCalc.pop(Pos-1)
+        listToCalc.pop(Pos)
+    return listToCalc[0]
 
 print(calculator(mainList))
