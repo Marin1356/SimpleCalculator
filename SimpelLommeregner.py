@@ -22,7 +22,7 @@ def findToken(Input):
     strLen = len(Input)
     Prog = 0
     mainList = []
-    boolList = []
+    isNumList = [] 
     numList = []
     for Prog in range(strLen):
         if isNumber(Input[Prog],False):
@@ -30,17 +30,25 @@ def findToken(Input):
         elif not isNumber(Input[Prog],False):
             if len(numList) > 0:
                 mainList.append(listAdd(numList))
-                numList.clear()
-                boolList.append(True)
-            boolList.append(False)
+                isNumList.clear()
+                isNumList.append(True)
+            isNumList.append(False)
             mainList.append(Input[Prog])
     if len(numList) > 0:
         mainList.append(listAdd(numList))
         numList.clear()
-        boolList.append(True)
-    return mainList
+        isNumList.append(True)
+    return (mainList, isNumList)
+
+(mainList, isNumList) = findToken(Input)
 
 print(findToken(Input))
+
+def findOpePos(listToTest, Ope):
+    listLen = len(listToTest)
+    Prog = 0
+    for Prog in range(listLen):
+        isNumber(listToTest,True)
 
 """
 def funcVar1(Input):
