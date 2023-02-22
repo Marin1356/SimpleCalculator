@@ -1,11 +1,5 @@
-#Input = input("Lommeregner ")
-#Input.replace(" ","")
-
-# findToken("-10+4*4") -> ("-", "10+4*4")
-# findToken("+10+4*4") -> ("+", "10+4*4")
-# findToken("4") -> ("4", "")
-# findToken("10+4*4") -> ("10", "+4*4")
-# findToken("") -> ("", False)
+Input = input("Lommeregner ")
+Input.replace(" ","")
 
 def isNumber(strToTest):
     Math = ["+","-","*","/"]
@@ -81,11 +75,4 @@ elif "*" in Input:
 elif "/" in Input:
     print(funcVar1(Input)/funcVar2(Input))
 """
-"""
-if findToken("-10+4*4") == ("-", "10+4*4") and findToken("+10+4*4") == ("+", "10+4*4") and findToken("4") == ("4", "") and findToken("10+4*4") == ("10", "+4*4") and findToken("") == ("", False):
-    print("det virkede!")
-else:
-    print("det virkede ikke")
-"""
-
-print(findToken("22+12"))
+print(findToken(Input))
