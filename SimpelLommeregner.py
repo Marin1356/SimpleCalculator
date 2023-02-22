@@ -20,6 +20,7 @@ def findToken(Input):
     strLen = len(Input)
     Prog = 0
     mainList = [""]
+    boolList = []
     numList = []
     for Prog in range(strLen):
         if isNumber(Input[Prog]):
@@ -28,12 +29,18 @@ def findToken(Input):
             if len(numList) > 0:
                 mainList.append(listAdd(numList))
                 numList.clear()
+                boolList.append(True)
+            boolList.append(False)
             mainList.append(Input[Prog])
     if len(numList) > 0:
         mainList.append(listAdd(numList))
         numList.clear()
+        boolList.append(True)
     mainList.remove("")
+    
     return mainList
+
+print()
 
 """
 def funcVar1(Input):
@@ -75,4 +82,3 @@ elif "*" in Input:
 elif "/" in Input:
     print(funcVar1(Input)/funcVar2(Input))
 """
-print(findToken(Input))
