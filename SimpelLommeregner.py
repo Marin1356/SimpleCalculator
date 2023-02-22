@@ -1,11 +1,13 @@
 Input = input("Lommeregner ")
 Input.replace(" ","")
 
-def isNumber(strToTest):
-    Math = ["+","-","*","/"]
+def isNumber(strToTest, specific):
+    Math = ["+","-","/","*"]
     mathNum = 0
     for mathNum in range(4):
         if Math[mathNum] in strToTest:
+            if specific:
+                return mathNum
             return False
     return True
 
@@ -23,9 +25,9 @@ def findToken(Input):
     boolList = []
     numList = []
     for Prog in range(strLen):
-        if isNumber(Input[Prog]):
+        if isNumber(Input[Prog],False):
             numList.append((Input[Prog]))
-        elif not isNumber(Input[Prog]):
+        elif not isNumber(Input[Prog],False):
             if len(numList) > 0:
                 mainList.append(listAdd(numList))
                 numList.clear()
@@ -40,7 +42,7 @@ def findToken(Input):
     
     return mainList
 
-print()
+print(findToken(Input))
 
 """
 def funcVar1(Input):
