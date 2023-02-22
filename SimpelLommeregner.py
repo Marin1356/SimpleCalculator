@@ -21,7 +21,7 @@ def listAdd(List):
 def findToken(Input):
     strLen = len(Input)
     Prog = 0
-    mainList = [""]
+    mainList = []
     boolList = []
     numList = []
     for Prog in range(strLen):
@@ -38,8 +38,6 @@ def findToken(Input):
         mainList.append(listAdd(numList))
         numList.clear()
         boolList.append(True)
-    mainList.remove("")
-    
     return mainList
 
 print(findToken(Input))
