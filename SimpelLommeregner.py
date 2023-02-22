@@ -15,8 +15,31 @@ def isNumber(strToTest):
             return False
     return True
 
+def listAdd(List):
+    Output = ""
+    listLen = len(List)
+    for Prog in range(listLen):
+        Output = Output + List[Prog]
+    return Output
+
 def findToken(Input):
-    pass
+    strLen = len(Input)
+    Prog = 0
+    mainList = [""]
+    numList = []
+    for Prog in range(strLen):
+        if isNumber(Input[Prog]):
+            numList.append((Input[Prog]))
+        elif not isNumber(Input[Prog]):
+            if len(numList) > 0:
+                mainList.append(listAdd(numList))
+                numList.clear()
+            mainList.append(Input[Prog])
+    if len(numList) > 0:
+        mainList.append(listAdd(numList))
+        numList.clear()
+    mainList.remove("")
+    return mainList
 
 """
 def funcVar1(Input):
@@ -64,4 +87,5 @@ if findToken("-10+4*4") == ("-", "10+4*4") and findToken("+10+4*4") == ("+", "10
 else:
     print("det virkede ikke")
 """
-print(isNumber("9"))
+
+print(findToken("22+12"))
