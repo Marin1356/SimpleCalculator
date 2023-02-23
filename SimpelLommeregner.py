@@ -1,5 +1,4 @@
-#Input = input("Lommeregner ")
-Input = "10+10-10/10*10"
+Input = input("Lommeregner ") 
 Input.replace(" ","")
 
 def isNumber(strToTest):
@@ -40,6 +39,8 @@ def findToken(Input):
     return (mainList, checkNumList)
 
 (mainList, checkNumList) = findToken(Input)
+
+print(mainList)
 
 def findOpePos(listToTest, Operator): 
     listLen = len(listToTest)
