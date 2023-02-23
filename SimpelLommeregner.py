@@ -41,8 +41,6 @@ def findToken(Input):
 
 (mainList, checkNumList) = findToken(Input)
 
-#print(mainList)
-
 def findOpePos(listToTest, Operator): 
     listLen = len(listToTest)
     Prog = 0
@@ -51,33 +49,12 @@ def findOpePos(listToTest, Operator):
             if Operator == listToTest[Prog]:
                 return (True, Prog)
 
-def sliceParen(ListToSlice,startPos):
-    listLen = len(ListToSlice)
-    for Prog in range(listLen):
-        if not ListToSlice[Prog] == checkNumList[Prog]:
-            if "(" == ListToSlice[Prog]:
-                sliceParen(ListToSlice[Prog+1:],0)
-            if ")" == ListToSlice[Prog]:
-                return ListToSlice[startPos:Prog]
-
-print(sliceParen("2*(1+(1+1)+1)/2",0))
-
-"""
 def calculator(listToCalc):
-    parenList = []
     Number = 0
     Pos = 0
 
     for i in listToCalc:
-        if findOpePos(listToCalc,"("[0]):
-            parenList = listToCalc[findOpePos(listToCalc,"(")[1]+1:sliceParen(listToCalc)]
-            calcParen = calculator(parenList)
-            if len(calcParen) == 0:
-                listToCalc[findOpePos(listToCalc,"(")[1]+1:sliceParen(listToCalc)] = calcParen
-            else:
-                calculator(parenList)
-
-        elif findOpePos(listToCalc,"*"[0]):
+        if findOpePos(listToCalc,"*"[0]):
             Pos = findOpePos(listToCalc,"*")[1]
             Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
 
@@ -98,5 +75,15 @@ def calculator(listToCalc):
         listToCalc.pop(Pos)
         return listToCalc[0]
 
-print(calculator(mainList))
-"""
+def sliceParen(ListToSlice,startPos):
+    listLen = len(ListToSlice)
+    lastStartParen = 0
+    for Prog in range(listLen):
+        if not ListToSlice[Prog] == checkNumList[Prog]:
+            if "(" == ListToSlice[Prog]:
+                lastStartParen = Prog
+                sliceParen(ListToSlice[Prog+1:],0)
+            if ")" == ListToSlice[Prog]:
+                ListToSlice[lastStartParen:Prog+1] = float(calculator(ListToSlice[lastStartParen+1:Prog])[0])
+
+print(sliceParen(mainList,0))
