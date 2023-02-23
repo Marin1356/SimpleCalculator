@@ -1,4 +1,4 @@
-Input = input("Lommeregner ") 
+Input = input("Calculator") 
 Input.replace(" ","")
 
 def isNumber(strToTest):
