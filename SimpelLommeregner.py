@@ -1,10 +1,11 @@
-Input = input("Calculator") 
+#Input = input("Calculator ") 
+Input = "2*(1+(1+1)+1)/2"
 Input.replace(" ","")
 
 def isNumber(strToTest):
-    Math = ["+","-","/","*"] 
+    Math = ["+","-","/","*","(",")"] 
     mathNum = 0
-    for mathNum in range(4):
+    for mathNum in range(6):
         if Math[mathNum] is strToTest:
             return False
     return True
@@ -40,7 +41,7 @@ def findToken(Input):
 
 (mainList, checkNumList) = findToken(Input)
 
-print(mainList)
+#print(mainList)
 
 def findOpePos(listToTest, Operator): 
     listLen = len(listToTest)
@@ -50,10 +51,33 @@ def findOpePos(listToTest, Operator):
             if Operator == listToTest[Prog]:
                 return (True, Prog)
 
+def sliceParen(ListToSlice,startPos):
+    listLen = len(ListToSlice)
+    for Prog in range(listLen):
+        if not ListToSlice[Prog] == checkNumList[Prog]:
+            if "(" == ListToSlice[Prog]:
+                sliceParen(ListToSlice[Prog+1:],0)
+            if ")" == ListToSlice[Prog]:
+                return ListToSlice[startPos:Prog]
+
+print(sliceParen("2*(1+(1+1)+1)/2",0))
+
+"""
 def calculator(listToCalc):
+    parenList = []
+    Number = 0
+    Pos = 0
 
     for i in listToCalc:
-        if findOpePos(listToCalc,"*"[0]):
+        if findOpePos(listToCalc,"("[0]):
+            parenList = listToCalc[findOpePos(listToCalc,"(")[1]+1:sliceParen(listToCalc)]
+            calcParen = calculator(parenList)
+            if len(calcParen) == 0:
+                listToCalc[findOpePos(listToCalc,"(")[1]+1:sliceParen(listToCalc)] = calcParen
+            else:
+                calculator(parenList)
+
+        elif findOpePos(listToCalc,"*"[0]):
             Pos = findOpePos(listToCalc,"*")[1]
             Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
 
@@ -72,6 +96,7 @@ def calculator(listToCalc):
         listToCalc[Pos] = Number
         listToCalc.pop(Pos-1)
         listToCalc.pop(Pos)
-    return listToCalc[0]
+        return listToCalc[0]
 
 print(calculator(mainList))
+"""
