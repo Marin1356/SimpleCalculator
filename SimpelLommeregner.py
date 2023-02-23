@@ -73,17 +73,22 @@ def calculator(listToCalc):
         listToCalc[Pos] = Number
         listToCalc.pop(Pos-1)
         listToCalc.pop(Pos)
-        return listToCalc[0]
+    return listToCalc[0]
 
-def sliceParen(ListToSlice,startPos):
-    listLen = len(ListToSlice)
-    lastStartParen = 0
-    for Prog in range(listLen):
-        if not ListToSlice[Prog] == checkNumList[Prog]:
-            if "(" == ListToSlice[Prog]:
-                lastStartParen = Prog
-                sliceParen(ListToSlice[Prog+1:],0)
-            if ")" == ListToSlice[Prog]:
-                ListToSlice[lastStartParen:Prog+1] = float(calculator(ListToSlice[lastStartParen+1:Prog])[0])
+def sliceParen(ListToSlice,startPos,lastStartParen):
+    Prog = startPos
+    calcList = []
+    for Prog in range(startPos,len(ListToSlice)):
+        if "(" == ListToSlice[Prog]:
+            lastStartParen = Prog
+            return sliceParen(ListToSlice,Prog+1,lastStartParen)
+        if ")" == ListToSlice[Prog]:
+            calcList = calculator(ListToSlice[lastStartParen+1:Prog])
+            ListToSlice = ListToSlice[:lastStartParen] + [calcList] + ListToSlice[Prog+1:]
+            sliceParen(ListToSlice,0,0)
+        elif "(" not in ListToSlice and ")" not in ListToSlice:
+            calcList = calculator(ListToSlice)
+            return calcList
+    return
 
-print(sliceParen(mainList,0))
+print(sliceParen(mainList,0,0))
