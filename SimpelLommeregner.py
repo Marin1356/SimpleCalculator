@@ -46,7 +46,7 @@ def findOpePos(listToTest, Operator):
     listLen = len(listToTest)
     Prog = 0
     for Prog in range(listLen):
-        if not isNumber(listToTest[Prog]):
+        if not listToTest[Prog] == checkNumList[Prog]:
             if Operator == listToTest[Prog]:
                 return (True, Prog)
 
