@@ -1,67 +1,102 @@
-#Input = input("Lommeregner ")
-#Input.replace(" ","")
-
-# findToken("-10+4*4") -> ("-", "10+4*4")
-# findToken("+10+4*4") -> ("+", "10+4*4")
-# findToken("4") -> ("4", "")
-# findToken("10+4*4") -> ("10", "+4*4")
-# findToken("") -> ("", False)
+Input = input("Calculator ") 
+Input.replace(" ","")
 
 def isNumber(strToTest):
-    Math = ["+","-","*","/"]
+    Math = ["+","-","/","*","(",")"] 
     mathNum = 0
-    for mathNum in range(4):
-        if Math[mathNum] in strToTest:
+    for mathNum in range(6):
+        if Math[mathNum] is strToTest:
             return False
     return True
 
+def listAdd(List):
+    Output = ""
+    listLen = len(List)
+    for Prog in range(listLen):
+        Output = Output + List[Prog]
+    return Output
+
 def findToken(Input):
-    pass
+    strLen = len(Input)
+    Prog = 0
+    mainList = []
+    checkNumList = [] 
+    numList = []
+    for Prog in range(strLen):
+        if isNumber(Input[Prog]):
+            numList.append((Input[Prog]))
+        elif not isNumber(Input[Prog]):
+            if len(numList) > 0:
+                mainList.append(listAdd(numList))
+                numList.clear()
+                checkNumList.append(True)
+            checkNumList.append(False)
+            mainList.append(Input[Prog])
+    if len(numList) > 0:
+        mainList.append(listAdd(numList))
+        numList.clear()
+        checkNumList.append(True)
+    return (mainList, checkNumList)
 
-"""
-def funcVar1(Input):
-    if "+" in Input:
-        List = Input.split("+")
-        Var1 = List[0]
-    elif "-" in Input:
-        List = Input.split("-")
-        Var1 = List[0]
-    elif "*" in Input:
-        List = Input.split("*")
-        Var1 = List[0]
-    elif "/" in Input:
-        List = Input.split("/")
-        Var1 = List[0]
-    return float(Var1)
+(mainList, checkNumList) = findToken(Input)
 
-def funcVar2(Input):
-    if "+" in Input:
-        List = Input.split("+")
-        Var2 = List[1]
-    elif "-" in Input:
-        List = Input.split("-")
-        Var2 = List[1]
-    elif "*" in Input:
-        List = Input.split("*")
-        Var2 = List[1]
-    elif "/" in Input:
-        List = Input.split("/")
-        Var2 = List[1]
-    return float(Var2)
+def findOpePos(listToTest, Operator): 
+    listLen = len(listToTest)
+    Prog = 0
+    for Prog in range(listLen):
+        if not listToTest[Prog] == checkNumList[Prog]:
+            if Operator == listToTest[Prog]:
+                return (True, Prog)
 
-if "+" in Input:
-    print(funcVar1(Input)+funcVar2(Input))
-elif "-" in Input:
-    print(funcVar1(Input)-funcVar2(Input))
-elif "*" in Input:
-    print(funcVar1(Input)*funcVar2(Input))
-elif "/" in Input:
-    print(funcVar1(Input)/funcVar2(Input))
-"""
-"""
-if findToken("-10+4*4") == ("-", "10+4*4") and findToken("+10+4*4") == ("+", "10+4*4") and findToken("4") == ("4", "") and findToken("10+4*4") == ("10", "+4*4") and findToken("") == ("", False):
-    print("det virkede!")
-else:
-    print("det virkede ikke")
-"""
-print(isNumber("9"))
+def calculator(listToCalc):
+    Number = 0
+    Pos = 0
+
+    for i in listToCalc:
+        if findOpePos(listToCalc,"*"[0]):
+            Pos = findOpePos(listToCalc,"*")[1]
+            Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
+
+        elif findOpePos(listToCalc,"/"[0]):
+            Pos = findOpePos(listToCalc,"/")[1]
+            Number = float(listToCalc[Pos-1]) / float(listToCalc[Pos+1])
+
+        elif findOpePos(listToCalc,"-"[0]):
+            Pos = findOpePos(listToCalc,"-")[1]
+            Number = float(listToCalc[Pos-1]) - float(listToCalc[Pos+1])
+
+        elif findOpePos(listToCalc,"+"[0]):
+            Pos = findOpePos(listToCalc,"+")[1]
+            Number = float(listToCalc[Pos-1]) + float(listToCalc[Pos+1])
+        
+        listToCalc[Pos] = Number
+        listToCalc.pop(Pos-1)
+        listToCalc.pop(Pos)
+    return listToCalc[0]
+
+def sliceParen(ListToSlice,startPos,lastStartParen):
+    Prog = startPos
+    calcList = []
+    for Prog in range(startPos,len(ListToSlice)):
+        if "(" == ListToSlice[Prog]:
+            lastStartParen = Prog
+            answer =  sliceParen(ListToSlice,Prog+1,lastStartParen)
+            return answer
+        if ")" == ListToSlice[Prog]:
+            calcList = calculator(ListToSlice[lastStartParen+1:Prog])
+            ListToSlice = ListToSlice[:lastStartParen] + [calcList] + ListToSlice[Prog+1:]
+            answer =  sliceParen(ListToSlice,0,0)
+            return answer
+        elif "(" not in ListToSlice and ")" not in ListToSlice:
+            calcList = calculator(ListToSlice)
+            return calcList
+    return answer
+
+Answer = sliceParen(mainList,0,0)
+
+if Answer%1 == 0:
+    Answer = int(Answer)
+    print(Answer)
+elif not Answer%1 == 0:
+    Answer = float(Answer)
+    print(Answer)
