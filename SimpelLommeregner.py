@@ -1,5 +1,4 @@
-#Input = input("Calculator ") 
-Input = "2*(1+(1+1)+1)/2"
+Input = input("Calculator ") 
 Input.replace(" ","")
 
 def isNumber(strToTest):
@@ -81,14 +80,16 @@ def sliceParen(ListToSlice,startPos,lastStartParen):
     for Prog in range(startPos,len(ListToSlice)):
         if "(" == ListToSlice[Prog]:
             lastStartParen = Prog
-            return sliceParen(ListToSlice,Prog+1,lastStartParen)
+            answer =  sliceParen(ListToSlice,Prog+1,lastStartParen)
+            return answer
         if ")" == ListToSlice[Prog]:
             calcList = calculator(ListToSlice[lastStartParen+1:Prog])
             ListToSlice = ListToSlice[:lastStartParen] + [calcList] + ListToSlice[Prog+1:]
-            sliceParen(ListToSlice,0,0)
+            answer =  sliceParen(ListToSlice,0,0)
+            return answer
         elif "(" not in ListToSlice and ")" not in ListToSlice:
             calcList = calculator(ListToSlice)
             return calcList
-    return
+    return answer
 
 print(sliceParen(mainList,0,0))
