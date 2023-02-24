@@ -1,5 +1,5 @@
 Input = input("Calculator ") 
-Input.replace(" ","")
+Input = Input.replace(" ","")
 
 def isNumber(strToTest):
     Math = ["+","-","/","*","(",")"] 
@@ -52,7 +52,7 @@ def calculator(listToCalc):
     Number = 0
     Pos = 0
 
-    for i in listToCalc:
+    while listToCalc >1:
         if findOpePos(listToCalc,"*"[0]):
             Pos = findOpePos(listToCalc,"*")[1]
             Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
@@ -85,6 +85,7 @@ def sliceParen(ListToSlice,startPos,lastStartParen):
         if ")" == ListToSlice[Prog]:
             calcList = calculator(ListToSlice[lastStartParen+1:Prog])
             ListToSlice = ListToSlice[:lastStartParen] + [calcList] + ListToSlice[Prog+1:]
+            print(ListToSlice)
             answer =  sliceParen(ListToSlice,0,0)
             return answer
         elif "(" not in ListToSlice and ")" not in ListToSlice:
@@ -97,9 +98,9 @@ if any(i.isalpha() for i in mainList):
 else:
     Answer = sliceParen(mainList,0,0)
 
-if Answer%1 == 0:
+if float(Answer)%1 == 0:
     Answer = int(Answer)
     print(Answer)
-elif not Answer%1 == 0:
+else:
     Answer = float(Answer)
     print(Answer)
