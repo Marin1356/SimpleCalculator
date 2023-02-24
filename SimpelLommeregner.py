@@ -44,7 +44,7 @@ def findOpePos(listToTest, Operator):
     listLen = len(listToTest)
     Prog = 0
     for Prog in range(listLen):
-        if not listToTest[Prog] == checkNumList[Prog]:
+        if not checkNumList[Prog]:
             if Operator == listToTest[Prog]:
                 return (True, Prog)
 
@@ -92,7 +92,10 @@ def sliceParen(ListToSlice,startPos,lastStartParen):
             return calcList
     return answer
 
-Answer = sliceParen(mainList,0,0)
+if any(i.isalpha() for i in mainList):
+    print("Error")
+else:
+    Answer = sliceParen(mainList,0,0)
 
 if Answer%1 == 0:
     Answer = int(Answer)
