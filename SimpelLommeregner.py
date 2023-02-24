@@ -52,23 +52,23 @@ def calculator(listToCalc):
     Number = 0
     Pos = 0
 
-    while listToCalc >1:
+    while len(listToCalc) >1:
         if findOpePos(listToCalc,"*"[0]):
             Pos = findOpePos(listToCalc,"*")[1]
             Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
 
-        elif findOpePos(listToCalc,"/"[0]):
+        if findOpePos(listToCalc,"/"[0]):
             Pos = findOpePos(listToCalc,"/")[1]
             Number = float(listToCalc[Pos-1]) / float(listToCalc[Pos+1])
 
-        elif findOpePos(listToCalc,"-"[0]):
+        if findOpePos(listToCalc,"-"[0]):
             Pos = findOpePos(listToCalc,"-")[1]
             Number = float(listToCalc[Pos-1]) - float(listToCalc[Pos+1])
 
-        elif findOpePos(listToCalc,"+"[0]):
+        if findOpePos(listToCalc,"+"[0]):
             Pos = findOpePos(listToCalc,"+")[1]
             Number = float(listToCalc[Pos-1]) + float(listToCalc[Pos+1])
-        
+
         listToCalc[Pos] = Number
         listToCalc.pop(Pos-1)
         listToCalc.pop(Pos)
