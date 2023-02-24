@@ -92,4 +92,14 @@ def sliceParen(ListToSlice,startPos,lastStartParen):
             return calcList
     return answer
 
-print(sliceParen(mainList,0,0))
+if Input.isnumeric():
+    Answer = sliceParen(mainList,0,0)
+else:
+    print("Error input cannot contain letters")
+
+if Answer%1 == 0:
+    Answer = int(Answer)
+    print(Answer)
+elif not Answer%1 == 0:
+    Answer = float(Answer)
+    print(Answer)
