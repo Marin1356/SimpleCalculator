@@ -44,29 +44,33 @@ def findOpePos(listToTest, Operator):
     listLen = len(listToTest)
     Prog = 0
     for Prog in range(listLen):
-        if not checkNumList[Prog]:
-            if Operator == listToTest[Prog]:
-                return (True, Prog)
+        if Operator == listToTest[Prog]:
+            return (True, Prog)
+    return (False, listLen+1)
 
 def calculator(listToCalc):
     Number = 0
     Pos = 0
 
-    while len(listToCalc) >1:
-        if findOpePos(listToCalc,"*"[0]):
-            Pos = findOpePos(listToCalc,"*")[1]
+    while len(listToCalc) > 1:
+        (hasMul, mulPos) = findOpePos(listToCalc,"*") #Does the listToCalc have a multiplikation symbol and where is it?
+        (hasDiv, divPos) = findOpePos(listToCalc,"/") #Does the listToCalc have a divide symbol and where is it?
+        (hasMin, minPos) = findOpePos(listToCalc,"-") #Does the listToCalc have a minus symbol and where is it?
+        (hasAdd, addPos) = findOpePos(listToCalc,"+") #Does the listToCalc have a addition symbol and where is it?
+        if mulPos < divPos and hasMul:
+            Pos = mulPos
             Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
 
-        if findOpePos(listToCalc,"/"[0]):
-            Pos = findOpePos(listToCalc,"/")[1]
+        elif divPos < mulPos and hasDiv:
+            Pos = divPos
             Number = float(listToCalc[Pos-1]) / float(listToCalc[Pos+1])
 
-        if findOpePos(listToCalc,"-"[0]):
-            Pos = findOpePos(listToCalc,"-")[1]
+        elif minPos < addPos and hasMin:
+            Pos = minPos
             Number = float(listToCalc[Pos-1]) - float(listToCalc[Pos+1])
 
-        if findOpePos(listToCalc,"+"[0]):
-            Pos = findOpePos(listToCalc,"+")[1]
+        elif addPos < minPos and hasAdd:
+            Pos = addPos
             Number = float(listToCalc[Pos-1]) + float(listToCalc[Pos+1])
 
         listToCalc[Pos] = Number
@@ -85,7 +89,6 @@ def sliceParen(ListToSlice,startPos,lastStartParen):
         if ")" == ListToSlice[Prog]:
             calcList = calculator(ListToSlice[lastStartParen+1:Prog])
             ListToSlice = ListToSlice[:lastStartParen] + [calcList] + ListToSlice[Prog+1:]
-            print(ListToSlice)
             answer =  sliceParen(ListToSlice,0,0)
             return answer
         elif "(" not in ListToSlice and ")" not in ListToSlice:
