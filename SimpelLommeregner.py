@@ -53,15 +53,21 @@ def findOpePos(listToTest, Operator):
             return (True, Prog)
     return (False, listLen+1)
 
-def calcNegativeNum(listToCalc):
-    while findOpePos(listToCalc,"-")[0]:
+def calcSpecialOpe(listToCalc):
+    while findOpePos(listToCalc,"-")[0] or findOpePos(listToCalc,"*")[0]:
         (hasMin,minPos) = findOpePos(listToCalc,"-")
         if hasMin:
             listToCalc[minPos] = listToCalc[minPos]+listToCalc[minPos+1]
             listToCalc.pop(minPos+1)
+        hasMul,mulPos = findOpePos(listToCalc,"*")
+        if hasMul:
+            if listToCalc[mulPos+1] == "*":
+                listToCalc[mulPos] = listToCalc[mulPos] + listToCalc[mulPos+1]
+                listToCalc.pop(mulPos+1)
     return listToCalc
 
-mainList = calcNegativeNum(mainList)
+
+mainList = calcSpecialOpe(mainList)
 
 def calculator(listToCalc):
     Number = 0
@@ -72,7 +78,12 @@ def calculator(listToCalc):
         (hasDiv, divPos) = findOpePos(listToCalc,"/") #Does the listToCalc have a divide symbol and where is it?
         (hasMin, minPos) = findOpePos(listToCalc,"-") #Does the listToCalc have a minus symbol and where is it?
         (hasAdd, addPos) = findOpePos(listToCalc,"+") #Does the listToCalc have a addition symbol and where is it?
-        if mulPos < divPos and hasMul:
+        (hasExp, expPos) = findOpePos(listToCalc,"**") #Does the listToCalc have a exponential symbol and where is it?
+        if hasExp:
+            Pos = expPos
+            Number = float(listToCalc[Pos-1]) ** float(listToCalc[Pos+1])
+
+        elif mulPos < divPos and hasMul:
             Pos = mulPos
             Number = float(listToCalc[Pos-1]) * float(listToCalc[Pos+1])
 
