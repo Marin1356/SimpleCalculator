@@ -3,7 +3,7 @@ Input = input("Calculator ")
 Input = Input.replace(" ","")
 
 def isNumber(strToTest):
-    Math = ["+","-","/","*","(",")"] 
+    Math = ["+","-","/","*","%","(",")"] 
     mathNum = 0
     for mathNum in range(6):
         if Math[mathNum] is strToTest:
@@ -54,18 +54,19 @@ def findOpePos(listToTest, Operator):
     return (False, listLen+1)
 
 def calcSpecialOpe(listToCalc):
-    while findOpePos(listToCalc,"-")[0] or findOpePos(listToCalc,"*")[0]:
+    i = 0
+    while i < len(listToCalc):
         (hasMin,minPos) = findOpePos(listToCalc,"-")
         if hasMin:
             listToCalc[minPos] = listToCalc[minPos]+listToCalc[minPos+1]
             listToCalc.pop(minPos+1)
-        hasMul,mulPos = findOpePos(listToCalc,"*")
+        (hasMul,mulPos) = findOpePos(listToCalc,"*")
         if hasMul:
             if listToCalc[mulPos+1] == "*":
                 listToCalc[mulPos] = listToCalc[mulPos] + listToCalc[mulPos+1]
                 listToCalc.pop(mulPos+1)
+        i=i+1
     return listToCalc
-
 
 mainList = calcSpecialOpe(mainList)
 
@@ -79,6 +80,7 @@ def calculator(listToCalc):
         (hasMin, minPos) = findOpePos(listToCalc,"-") #Does the listToCalc have a minus symbol and where is it?
         (hasAdd, addPos) = findOpePos(listToCalc,"+") #Does the listToCalc have a addition symbol and where is it?
         (hasExp, expPos) = findOpePos(listToCalc,"**") #Does the listToCalc have a exponential symbol and where is it?
+        (hasMod, modPos) = findOpePos(listToCalc,"%") #Does the listToCalc have a modulus symbol and where is it?
         if hasExp:
             Pos = expPos
             Number = float(listToCalc[Pos-1]) ** float(listToCalc[Pos+1])
@@ -90,6 +92,10 @@ def calculator(listToCalc):
         elif divPos < mulPos and hasDiv:
             Pos = divPos
             Number = float(listToCalc[Pos-1]) / float(listToCalc[Pos+1])
+
+        elif hasMod:
+            Pos = modPos
+            Number = float(listToCalc[Pos-1])%float(listToCalc[Pos+1])
 
         elif minPos < addPos and hasMin:
             Pos = minPos
