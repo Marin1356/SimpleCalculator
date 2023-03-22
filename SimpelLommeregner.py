@@ -1,4 +1,5 @@
 Input = input("Calculator ") 
+#Input = "1+(2+2)"
 Input = Input.replace(" ","")
 
 def isNumber(strToTest):
@@ -30,8 +31,12 @@ def findToken(Input):
                 mainList.append(listAdd(numList))
                 numList.clear()
                 checkNumList.append(True)
-            checkNumList.append(False)
-            mainList.append(Input[Prog])
+            if Input[Prog] == "(" or Input[Prog] == ")":
+                checkNumList.append(True)
+                mainList.append(Input[Prog])
+            else:
+                checkNumList.append(False)
+                mainList.append(Input[Prog])
     if len(numList) > 0:
         mainList.append(listAdd(numList))
         numList.clear()
@@ -47,6 +52,16 @@ def findOpePos(listToTest, Operator):
         if Operator == listToTest[Prog]:
             return (True, Prog)
     return (False, listLen+1)
+
+def calcNegativeNum(listToCalc):
+    while findOpePos(listToCalc,"-")[0]:
+        (hasMin,minPos) = findOpePos(listToCalc,"-")
+        if hasMin:
+            listToCalc[minPos] = listToCalc[minPos]+listToCalc[minPos+1]
+            listToCalc.pop(minPos+1)
+    return listToCalc
+
+mainList = calcNegativeNum(mainList)
 
 def calculator(listToCalc):
     Number = 0
@@ -96,10 +111,7 @@ def sliceParen(ListToSlice,startPos,lastStartParen):
             return calcList
     return answer
 
-if any(i.isalpha() for i in mainList):
-    print("Error")
-else:
-    Answer = sliceParen(mainList,0,0)
+Answer = sliceParen(mainList,0,0)
 
 if float(Answer)%1 == 0:
     Answer = int(Answer)
